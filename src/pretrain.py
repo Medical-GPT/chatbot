@@ -1,25 +1,24 @@
 import time
 import torch
 from torch.nn import functional as F
+from encoder import Encoder
 from model import BigramLanguageModel
 from utils import get_tokens, get_token_coders, estimate_loss, save_model
 from dataloader import DataLoader
 from hyperparams import *
-from constants import CHECKPOINT_DIR, MODELS_DIR
+from constants import CHECKPOINT_DIR, MODELS_DIR, INPUT_DIR, ENCODER_ENCTEXT
+import gc
 
 torch.manual_seed(1337)
 
-# wget https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
-with open("input.txt", "r", encoding="utf-8") as f:
-    text = f.read()
+encoder = Encoder(INPUT_DIR, encode_text=True)
+
+VOCAB_SIZE = encoder.get_vocab_size()
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-tokens = get_tokens(text)
-VOCAB_SIZE = len(tokens)
-encode, decode = get_token_coders(tokens)
-
-data_loader = DataLoader(encode(text), device, BLOCK_SIZE, BATCH_SIZE)
+data_loader = DataLoader(ENCODER_ENCTEXT, device, BLOCK_SIZE, BATCH_SIZE)
+print("Loaded data loader")
 
 model = BigramLanguageModel(
     N_EMBD,
@@ -61,4 +60,4 @@ save_model(model, MODELS_DIR / "pretrained.pt")
 
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
-print(decode(model.generate(context, max_new_tokens=2000)[0].tolist()))
+print(encoder.decode(model.generate(context, max_new_tokens=2000)[0].tolist()))

@@ -1,14 +1,17 @@
 import torch
-
+import numpy as np
 
 class DataLoader:
-    def __init__(self, data, device, block_size, batch_size, split=0.9):
+    def __init__(self, path, device, block_size, batch_size, split=0.9):
         self.device = device
         self.block_size = block_size
         self.batch_size = batch_size
 
-        self.data = torch.tensor(data, dtype=torch.long)
+        with open(path, "rb") as f:
+            encoded_bytes = f.read()
 
+        encoded_file = np.frombuffer(encoded_bytes, dtype=np.uint8)
+        self.data = torch.from_numpy(encoded_file).long()
         n = int(split * len(self.data))
 
         self.train_data = self.data[:n]
