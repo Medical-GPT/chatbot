@@ -10,7 +10,6 @@ The model is implemented based on the tutorial by Andrej Karpaty: *Let's build G
 
 ## Usage
 
-Once all steps from the *data* repository have been followed run `make pretrain` to pretrain a network.
-While training the checkpoints will be saved under `models/checkpoints/ch_{epoch}_{validation_loss}.pt`.
-Once the pretraining is done, the model will be saved under `models/pretrained.pt`.
-To interact with the model run `make test_pretrained {PATH_TO_MODEL}`.
+- Once all steps from the *data* repository have been followed run `make pretrain` to pretrain a network.
+- While training the checkpoints will be saved under `models/checkpoints/ch_{epoch}_{validation_loss}.pt`. Once the pretraining is done, the model will be saved under `models/pretrained.pt`.
+- To interact with the model run `make test_pretrained {PATH_TO_MODEL}`.
