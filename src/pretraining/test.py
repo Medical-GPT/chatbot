@@ -1,5 +1,5 @@
 import sys
-from utils import load_data, load_model, get_tokens, get_token_coders
+from utils import load_data, load_model
 import torch
 from hyperparams import *
 from encoder import Encoder

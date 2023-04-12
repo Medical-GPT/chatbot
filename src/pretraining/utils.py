@@ -1,23 +1,5 @@
 import torch
 from model import BigramLanguageModel
-from constants import CHECKPOINT_DIR
-
-
-def get_tokens(text):
-    return sorted(list(set(text)))
-
-
-def get_token_coders(tokens):
-    stoi = {ch: i for i, ch in enumerate(tokens)}
-    itos = {i: ch for i, ch in enumerate(tokens)}
-    encode = lambda s: [
-        stoi[c] for c in s
-    ]  # encoder: take a list of tokens, output a list of integers
-    decode = lambda l: "".join(
-        [itos[i] for i in l]
-    )  # decoder: take a list of integers, output a string
-
-    return encode, decode
 
 
 @torch.no_grad()

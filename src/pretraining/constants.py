@@ -4,7 +4,11 @@ INPUT_DIR = Path("../data/data/pretraining/preprocessed.txt")
 
 MODELS_DIR = Path("models")
 MODELS_DIR.mkdir(exist_ok=True)
-CHECKPOINT_DIR = MODELS_DIR / "checkpoints"
+
+PRETRAINED_DIR = MODELS_DIR / "pretrained"
+PRETRAINED_DIR.mkdir(exist_ok=True)
+
+CHECKPOINT_DIR = PRETRAINED_DIR / "checkpoints"
 CHECKPOINT_DIR.mkdir(exist_ok=True)
 
 ENCODER_DIR = Path("encoder")

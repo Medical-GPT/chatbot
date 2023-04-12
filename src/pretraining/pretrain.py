@@ -1,13 +1,11 @@
 import time
 import torch
-from torch.nn import functional as F
 from encoder import Encoder
 from model import BigramLanguageModel
-from utils import get_tokens, get_token_coders, estimate_loss, save_model
+from utils import estimate_loss, save_model
 from dataloader import DataLoader
 from hyperparams import *
-from constants import CHECKPOINT_DIR, MODELS_DIR, INPUT_DIR, ENCODER_ENCTEXT
-import gc
+from constants import CHECKPOINT_DIR, PRETRAINED_DIR, INPUT_DIR, ENCODER_ENCTEXT
 
 torch.manual_seed(1337)
 
@@ -36,7 +34,6 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
 
 start = time.time()
 for iter in range(MAX_ITERS):
-
     # every once in a while evaluate the loss on train and val sets
     if iter % EVAL_INTERVAL == 0 or iter == MAX_ITERS - 1:
         losses = estimate_loss(model, data_loader, EVAL_ITERS)
@@ -56,7 +53,7 @@ for iter in range(MAX_ITERS):
 
 
 # save the model
-save_model(model, MODELS_DIR / "pretrained.pt")
+save_model(model, PRETRAINED_DIR / "pretrained.pt")
 
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)

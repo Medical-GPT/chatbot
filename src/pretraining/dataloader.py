@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 
+
 class DataLoader:
     def __init__(self, path, device, block_size, batch_size, split=0.9):
         self.device = device

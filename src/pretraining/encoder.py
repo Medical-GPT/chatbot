@@ -2,10 +2,9 @@ from constants import ENCODER_TOKENS, ENCODER_ENCTEXT
 import gc
 import numpy as np
 
+
 class Encoder:
-
     def __init__(self, path, load_tokens=False, encode_text=True):
-
         if load_tokens:
             self.tokens = self.load_tokens()
         else:
@@ -61,7 +60,7 @@ class Encoder:
             with open(ENCODER_ENCTEXT, "wb") as output_file:
                 for line in input_file:
                     # Example encoded line of integers
-                    encoded_line = self.encode(line+"\n")
+                    encoded_line = self.encode(line + "\n")
 
                     # Convert to numpy array of uint8 (8-bit unsigned integers)
                     encoded_line = np.array(encoded_line, dtype=np.uint8)
