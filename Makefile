@@ -44,7 +44,7 @@ pretrain: ## Pre-trains the model
 
 test_pretrained: ## Interact with model (pass model={model.pt} to specify model)
 	@echo "==> Starting model..."
-	@venv/bin/python src/pretrained/test.py $(model)
+	@venv/bin/python src/pretraining/test.py $(model)
 	@echo "    [✓]"
 	@echo
 

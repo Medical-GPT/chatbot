@@ -2,7 +2,7 @@ import time
 import torch
 from encoder import Encoder
 from model import BigramLanguageModel
-from utils import estimate_loss, save_model
+from utils import estimate_loss
 from dataloader import DataLoader
 from hyperparams import *
 from constants import CHECKPOINT_DIR, PRETRAINED_DIR, INPUT_DIR, ENCODER_ENCTEXT
@@ -41,7 +41,11 @@ for iter in range(MAX_ITERS):
             f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}. Took {time.time() - start:.2f} seconds"
         )
         start = time.time()
-        save_model(model, CHECKPOINT_DIR / f"ch_{iter}_{losses['val']:.4f}.pt")
+        model.save(
+            CHECKPOINT_DIR / f"ch_{iter}_{losses['val']:.4f}",
+            encoder.get_tokens(),
+        )
+
     # sample a batch of data
     xb, yb = data_loader.get_batch("train")
 
@@ -53,7 +57,7 @@ for iter in range(MAX_ITERS):
 
 
 # save the model
-save_model(model, PRETRAINED_DIR / "pretrained.pt")
+model.save(PRETRAINED_DIR / "pretrained", encoder.get_tokens())
 
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)

@@ -1,6 +1,9 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
+from encoder import Encoder
+import json
+from pathlib import Path
 
 
 class Head(nn.Module):
@@ -103,6 +106,28 @@ class BigramLanguageModel(nn.Module):
         self.lm_head = nn.Linear(n_embd, vocab_size)
         self.block_size = block_size
 
+        # Parameters
+        self.params = {
+            "n_embd": n_embd,
+            "vocab_size": vocab_size,
+            "block_size": block_size,
+            "n_head": n_head,
+            "n_layer": n_layer,
+            "dropout": dropout,
+        }
+
+    @staticmethod
+    def load(path):
+        path = Path(path)
+        with open(path / "params.json") as f:
+            params = json.load(f)
+        model = BigramLanguageModel(**params)
+        model.load_state_dict(torch.load(path / "model.pt"))
+
+        encode, decode = Encoder.generate_coders_from_path(path / "vocabulary.txt")
+
+        return model, encode, decode
+
     def forward(self, idx, targets=None, device="cpu"):
         B, T = idx.shape
 
@@ -140,3 +165,14 @@ class BigramLanguageModel(nn.Module):
             # append sampled index to the running sequence
             idx = torch.cat((idx, idx_next), dim=1)  # (B, T+1)
         return idx
+
+    def save(self, dest, vocabulary):
+        dest_path = Path(dest)
+        dest_path.mkdir(exist_ok=True)
+
+        params_path = dest_path / "params.json"
+
+        torch.save(self.state_dict(), dest_path / "model.pt")
+        Encoder.save_tokens(vocabulary, dest / "vocabulary.txt")
+        with params_path.open("w") as f:
+            json.dump(self.params, f)
