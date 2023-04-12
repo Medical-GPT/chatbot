@@ -1,6 +1,6 @@
 from pathlib import Path
 
-INPUT_DIR = Path("../data/data/pretraining/preprocessed.txt")
+INPUT_DIR = Path("../data/data/pretraining.txt")
 
 MODELS_DIR = Path("models")
 MODELS_DIR.mkdir(exist_ok=True)
