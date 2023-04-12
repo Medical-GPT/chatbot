@@ -1,9 +1,9 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from encoder import Encoder
 import json
 from pathlib import Path
+from .encoder import Encoder
 
 
 class Head(nn.Module):
@@ -119,11 +119,17 @@ class BigramLanguageModel(nn.Module):
     @staticmethod
     def load(path):
         path = Path(path)
+
+        # Load parameters
         with open(path / "params.json") as f:
             params = json.load(f)
+
+        # Load model
         model = BigramLanguageModel(**params)
         model.load_state_dict(torch.load(path / "model.pt"))
+        model.eval()
 
+        # Load encoder and decoder functions
         encode, decode = Encoder.generate_coders_from_path(path / "vocabulary.txt")
 
         return model, encode, decode

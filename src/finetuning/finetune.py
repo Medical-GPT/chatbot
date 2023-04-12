@@ -9,7 +9,7 @@ from constants import MEDICAL_FINETUNING_FILE, EMPATHIC_FINETUNING_FILE, FINETUN
 import sys
 
 if len(sys.argv) == 3:  # No path to model has been passed => start with clean gpt2
-    model_path = "gpt2"
+    model_path = "gpt2-large"
 else:
     model_path = sys.argv[1]
 
@@ -34,7 +34,13 @@ tokenizer.add_special_tokens({"pad_token": "[PAD]"})
 
 
 def tokenize_function(examples):
-    return tokenizer(examples["text"], padding=True, return_special_tokens_mask=True)
+    return tokenizer(
+        examples["text"],
+        padding=True,
+        truncation=True,
+        max_length=1024,
+        return_special_tokens_mask=True,
+    )
 
 
 tokenized_train_dataset = train_dataset.map(
@@ -53,7 +59,7 @@ model.resize_token_embeddings(len(tokenizer))
 training_args = TrainingArguments(
     output_dir=FINETUNED_DIR,
     overwrite_output_dir=True,
-    num_train_epochs=1,
+    num_train_epochs=10,
     per_device_train_batch_size=2,
     per_device_eval_batch_size=2,
     evaluation_strategy="epoch",

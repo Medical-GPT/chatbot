@@ -1,4 +1,4 @@
-from constants import ENCODER_TOKENS, ENCODER_ENCTEXT
+from .constants import ENCODER_TOKENS, ENCODER_ENCTEXT
 import gc
 import numpy as np
 

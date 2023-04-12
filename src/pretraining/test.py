@@ -1,7 +1,7 @@
 import sys
 import torch
-from hyperparams import *
-from model import BigramLanguageModel
+from .hyperparams import *
+from .model import BigramLanguageModel
 
 # Get the arguments passed to the script
 path = sys.argv[1]

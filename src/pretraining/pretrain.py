@@ -1,11 +1,11 @@
 import time
 import torch
-from encoder import Encoder
-from model import BigramLanguageModel
-from utils import estimate_loss
-from dataloader import DataLoader
-from hyperparams import *
-from constants import CHECKPOINT_DIR, PRETRAINED_DIR, INPUT_DIR, ENCODER_ENCTEXT
+from .encoder import Encoder
+from .model import BigramLanguageModel
+from .utils import estimate_loss
+from .dataloader import DataLoader
+from .hyperparams import *
+from .constants import CHECKPOINT_DIR, PRETRAINED_DIR, INPUT_DIR, ENCODER_ENCTEXT
 
 torch.manual_seed(1337)
 
