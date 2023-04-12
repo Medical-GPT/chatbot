@@ -42,21 +42,21 @@ pretrain: ## Pre-trains the model
 	@echo "    [✓]"
 	@echo
 
-test_pretrained: ## Interact with model (pass path={model.pt} to specify model)
+test_pretrained: ## Interact with model (pass model={model.pt} to specify model)
 	@echo "==> Starting model..."
-	@venv/bin/python src/pretrained/test.py $(path)
+	@venv/bin/python src/pretrained/test.py $(model)
 	@echo "    [✓]"
 	@echo
 
-finetune: ## Finetunes the model
+finetune: ## Finetunes the model (pass model={model} dataset={medical | empathic | path_to_dataset} output={model_name} to specify finetune mode and destination. Omit model to start with a clean gpt2 model)
 	@echo "==> Finetuning model..."
-	@venv/bin/python src/finetuning/finetune.py
+	@venv/bin/python src/finetuning/finetune.py ${model} $(dataset) $(output)
 	@echo "    [✓]"
 	@echo
 
-test_finetuned: ## Interact with model (pass path={model.pt} to specify model)
+test_finetuned: ## Interact with model (pass model={model.pt} to specify model)
 	@echo "==> Starting model..."
-	@venv/bin/python src/finetuning/test.py $(path)
+	@venv/bin/python src/finetuning/test.py $(model)
 	@echo "    [✓]"
 	@echo
 

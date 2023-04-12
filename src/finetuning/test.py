@@ -2,10 +2,10 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import sys
 
 # Get the path to the finetuned model
-path = sys.argv[1]
+model_path = sys.argv[1]
 
 # Load the fine-tuned model and tokenizer
-model = GPT2LMHeadModel.from_pretrained(path)
+model = GPT2LMHeadModel.from_pretrained(model_path)
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 tokenizer.add_special_tokens({"pad_token": "[PAD]"})  # Add this line
 # Set the model to evaluation mode

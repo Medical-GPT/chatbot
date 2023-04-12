@@ -5,10 +5,25 @@ from transformers import (
 )
 from transformers import Trainer, TrainingArguments
 from datasets import load_dataset
-from constants import INPUT_DIR, FINETUNED_DIR
+from constants import MEDICAL_FINETUNING_FILE, EMPATHIC_FINETUNING_FILE, FINETUNED_DIR
+import sys
+
+if len(sys.argv) == 3:  # No path to model has been passed => start with clean gpt2
+    model_path = "gpt2"
+else:
+    model_path = sys.argv[1]
+
+dataset_alias, output_dest = sys.argv[-2:]
+
+if dataset_alias == "medical":
+    finetuning_dataset = MEDICAL_FINETUNING_FILE
+elif dataset_alias == "empathic":
+    finetuning_dataset = EMPATHIC_FINETUNING_FILE
+else:
+    finetuning_dataset = dataset_alias
 
 # Load the dataset
-dataset = load_dataset("text", data_files={"train": str(INPUT_DIR)})
+dataset = load_dataset("text", data_files={"train": str(finetuning_dataset)})
 train_dataset = dataset["train"]
 
 # Split the dataset into training and validation sets
@@ -58,4 +73,4 @@ trainer = Trainer(
 )
 
 trainer.train()
-trainer.save_model(FINETUNED_DIR / "finetuned")
+trainer.save_model(FINETUNED_DIR / output_dest)
