@@ -24,7 +24,7 @@ while True:
     output = model.generate(
         input_ids=input_ids,
         attention_mask=attention_mask,
-        max_length=100,
+        max_length=150,
         do_sample=True,
         top_k=50,
         temperature=0.6,

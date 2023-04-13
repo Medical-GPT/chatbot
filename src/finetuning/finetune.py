@@ -5,8 +5,13 @@ from transformers import (
 )
 from transformers import Trainer, TrainingArguments
 from datasets import load_dataset
-from constants import MEDICAL_FINETUNING_FILE, EMPATHIC_FINETUNING_FILE, FINETUNED_DIR
 import sys
+from .constants import (
+    MEDICAL_FINETUNING_FILE,
+    EMPATHIC_FINETUNING_FILE,
+    FINETUNED_DIR,
+)
+from .hyperparams import *
 
 if len(sys.argv) == 3:  # No path to model has been passed => start with clean gpt2
     model_path = "gpt2-large"
@@ -59,15 +64,15 @@ model.resize_token_embeddings(len(tokenizer))
 training_args = TrainingArguments(
     output_dir=FINETUNED_DIR,
     overwrite_output_dir=True,
-    num_train_epochs=10,
+    num_train_epochs=EPOCHS,
     per_device_train_batch_size=2,
     per_device_eval_batch_size=2,
     evaluation_strategy="epoch",
     save_strategy="epoch",
     logging_dir="./logs",
     logging_steps=100,
-    learning_rate=5e-5,
-    weight_decay=0.01,
+    learning_rate=LEARNING_RATE,
+    weight_decay=WEIGHT_DECAY,
 )
 
 trainer = Trainer(
