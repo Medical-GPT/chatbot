@@ -11,9 +11,9 @@ tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 tokenizer.add_special_tokens({"pad_token": "[PAD]"})  # Add this line
 # Set the model to evaluation mode
 model.eval()
-prompt = "Patient: Hi doctor, I've been experiencing a lot of chest pain and shortness of breath lately, even when I'm not doing any physical activity.\nDoctor:"
 
 while True:
+    prompt = input("Input: ")
     # Encode the prompt using the tokenizer
     input_ids = tokenizer.encode(prompt, return_tensors="pt")
 
@@ -32,8 +32,4 @@ while True:
 
     # Decode the generated text and print it
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
-    result = generated_text.split("Doctor:")[-1]
-    print(f"Doctor:{result}")
-    # prompt = result + "\n\n"
-    text = input("Patient: ")
-    prompt = f"Patient: {text}\nDoctor:"
+    print(f"Response: {generated_text}")
